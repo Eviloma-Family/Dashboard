@@ -1,13 +1,8 @@
-import { supabase } from "../../supabaseClient.js";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { logIn } from "../../supabaseClient";
 
 function GoogleButton() {
-  async function logIn() {
-    await supabase.auth.signIn({
-      provider: "google",
-    });
-  }
   return (
     <div
       onClick={logIn}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChartLine,
@@ -9,8 +9,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import ProfileWidget from "../../ui/overview/profile_widget/ProfileWidget";
 import OtherWidget from "../../ui/overview/other_widget/OtherWidget";
+import { PageContext } from "../../page-context";
 
 function Overview() {
+  const [data] = useContext(PageContext);
   return (
     <div className="w-full">
       <div className="flex flex-row items-center gap-4 my-8">
@@ -23,31 +25,29 @@ function Overview() {
         <ProfileWidget />
         <OtherWidget
           title="Баланс"
-          value="75.00"
+          value={data?.balance ?? 0.0}
           symbol="₴"
           icon={faMoneyBill}
           color="text-green"
         />
         <OtherWidget
           title="Підписки"
-          value="2"
+          value="0"
           icon={faTicket}
           color="text-blue"
         />
         <OtherWidget
           title="Ціна підписок"
-          value="25.00"
+          value="0"
           symbol="₴/міс"
           icon={faCashRegister}
           color="text-yellow"
         />
         <OtherWidget
-          title="Заборгованість"
-          value="25.00"
-          symbol="₴"
+          title="Кі-сть транзакцій"
+          value="0"
           icon={faCreditCard}
           color="text-orange"
-          red
         />
       </div>
     </div>

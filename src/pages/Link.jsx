@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../supabaseClient";
+import { getAuth, supabase } from "../supabaseClient";
 import Main from "./Main";
+import { motion } from "framer-motion";
 
 function Link() {
   const [code, setCode] = useState(
@@ -14,7 +15,7 @@ function Link() {
 
   useEffect(() => {
     async function Checker() {
-      if (!supabase.auth.currentUser) {
+      if (!getAuth()) {
         return Redirect();
       }
 
@@ -98,58 +99,64 @@ function Link() {
   }
 
   return (
-    <div className="h-screen overflow-hidden">
-      <div className={`flex flex-col blur`}>
-        <Main />
-      </div>
-      <div className="flex h-screen w-full bg-[#000000]/70 absolute top-0 left-0 items-center justify-center">
-        <div className="bg-primary px-10 py-6 flex flex-col rounded-2xl mx-5 tablet:w-1/2 desktop:w-1/4">
-          <div
-            onClick={Redirect}
-            className="text-secondaryWhite mb-3 hover:text-thirdary duration-150 cursor-pointer"
-          >
-            Назад
-          </div>
-          <div className="text-3xl place-self-center">Телеграм</div>
-          <div className="text-secondaryWhite mt-2 mb-1">
-            Для з'єднання вашого телеграм аккаунту з сайтом введіть код нижче та
-            натисніть кнопку "<span className="font-bold">з'єднати</span>"
-          </div>
-          <div className="text-secondaryWhite mt-2 mb-8">
-            Код можна отримати за допомогою телеграм бота.
-          </div>
-          <form>
-            <input
-              className="bg-[#eee] text-[#000] placeholder:text-[#444] focus:outline-0 px-4 py-2 mb-4 rounded-full w-full"
-              placeholder="Введіть код сюди..."
-              maxLength="6"
-              value={code}
-              onChange={(e) => {
-                setCode(e.target.value);
-              }}
-            />
-            <button
-              type="submit"
-              disabled={!activeButton}
-              onClick={LinkRequest}
-              className="flex flex-row gap-4 text-center justify-center bg-secondary hover:bg-thirdary disabled:bg-[#777] px-4 py-2 rounded-lg cursor-pointer duration-150 w-full"
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      <div className="h-screen overflow-hidden">
+        <div className={`flex flex-col blur`}>
+          <Main />
+        </div>
+        <div className="flex h-screen w-full bg-[#000000]/70 absolute top-0 left-0 items-center justify-center">
+          <div className="bg-primary px-10 py-6 flex flex-col rounded-2xl mx-5 tablet:w-1/2 desktop:w-1/4">
+            <div
+              onClick={Redirect}
+              className="text-secondaryWhite mb-3 hover:text-thirdary duration-150 cursor-pointer"
             >
-              З'єднати
-            </button>
-          </form>
-          <div>
-            {error !== "" ? <div className="mt-4 text-red">{error}</div> : ""}
-            {successful ? (
-              <div className="mt-4 text-green">
-                Ваш аккаунт успішно прив'язаний. Перехід на головну сторінку.
-              </div>
-            ) : (
-              ""
-            )}
+              Назад
+            </div>
+            <div className="text-3xl place-self-center">Телеграм</div>
+            <div className="text-secondaryWhite mt-2 mb-1">
+              Для з'єднання вашого телеграм аккаунту з сайтом введіть код нижче
+              та натисніть кнопку "<span className="font-bold">з'єднати</span>"
+            </div>
+            <div className="text-secondaryWhite mt-2 mb-8">
+              Код можна отримати за допомогою телеграм бота.
+            </div>
+            <form>
+              <input
+                className="bg-[#eee] text-[#000] placeholder:text-[#444] focus:outline-0 px-4 py-2 mb-4 rounded-full w-full"
+                placeholder="Введіть код сюди..."
+                maxLength="6"
+                value={code}
+                onChange={(e) => {
+                  setCode(e.target.value);
+                }}
+              />
+              <button
+                type="submit"
+                disabled={!activeButton}
+                onClick={LinkRequest}
+                className="flex flex-row gap-4 text-center justify-center bg-secondary hover:bg-thirdary disabled:bg-[#777] px-4 py-2 rounded-lg cursor-pointer duration-150 w-full"
+              >
+                З'єднати
+              </button>
+            </form>
+            <div>
+              {error !== "" ? <div className="mt-4 text-red">{error}</div> : ""}
+              {successful ? (
+                <div className="mt-4 text-green">
+                  Ваш аккаунт успішно прив'язаний. Перехід на головну сторінку.
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

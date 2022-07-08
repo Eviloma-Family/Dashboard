@@ -1,12 +1,12 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function OtherWidget({ title, value, icon, color, symbol, red }) {
+function OtherWidget({ title, value, icon, color, symbol }) {
   return (
     <div className="bg-primary rounded-2xl p-6 flex flex-row items-center justify-between">
       <div>
         <div className="text-secondaryWhite">{title}</div>
-        <div className={`text-2xl ${red && value > 0 ? "text-red" : ""}`}>
+        <div className={`text-2xl`}>
           {value}
           {symbol}
         </div>
